@@ -10,6 +10,9 @@ ini_set("max_execution_time", "0");
 
 $upwingo = new \API\V1\Upwingo();
 
-$bot = new \Bots\BotSimple($upwingo, 'bina', 'btc_usdt', 10, 'micro', 'FREE');
+$bot = new \Bots\BotSimple(
+    $upwingo,
+    'bina', 'btc_usdt', 10, 'micro', 'FREE', 10
+);
 
 $bot->run();
