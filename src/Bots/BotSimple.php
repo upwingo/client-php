@@ -41,7 +41,7 @@ class BotSimple extends BotBasic
         $this->amount = floatval($amount);
 
         $this->channel = strtoupper("CANDLES--$exchange-$symbol--$timeframe");
-        $this->tableId = strtolower("$exchange--$symbol--$timeframe--$limit--single:$currency--pvp");
+        $this->tableId = strtolower("$exchange--$symbol--$timeframe--$limit--single:") . strtoupper($currency) . '--pvp';
     }
 
     protected function onInit()
@@ -110,7 +110,7 @@ class BotSimple extends BotBasic
             return 0;
         }
 
-        $time = $this->currentCandleTime + $this->timeframe;
+        $time = $this->currentCandleTime - $this->timeframe;
         if ( !isset($this->candles[$time]) ) {
             return 0;
         }
@@ -125,7 +125,7 @@ class BotSimple extends BotBasic
         $type = 0;
 
         for ($i = 2; $i < self::CAP; ++$i) {
-            $time += $this->timeframe;
+            $time -= $this->timeframe;
             if ( !isset($this->candles[$time]) ) {
                 return $type;
             }
