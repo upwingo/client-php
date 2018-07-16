@@ -51,12 +51,13 @@ class BotSimple extends BotBasic
         $this->setReconnect(true);
         $this->subscribe($this->channel);
 
-        $this->log('init');
+        $this->log("balance: {$this->balance}");
     }
 
     protected function onTick(array $data)
     {
         if ($this->amount > $this->balance) {
+            $this->log('insufficient funds');
             $this->stop();
             return;
         }
@@ -95,6 +96,12 @@ class BotSimple extends BotBasic
     }
 
     /**
+     *                    up | up | -> | up
+     *                down | down | -> | down
+     *
+     *          up | up | up | up | -> | down
+     *  down | down | down | down | -> | up
+     *
      * @return int
      */
     protected function condition()
