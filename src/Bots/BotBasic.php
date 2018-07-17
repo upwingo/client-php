@@ -3,6 +3,8 @@
 namespace Bots;
 
 use API\IBinaryAPI;
+use API\IException;
+use API\ISocketException;
 
 abstract class BotBasic
 {
@@ -35,19 +37,28 @@ abstract class BotBasic
         $this->api = $api;
     }
 
+    /**
+     * @throws IException
+     */
     public function run()
     {
-        $this->onInit();
-
         $this->stopped = false;
 
-        do {
-            $this->api->ticker($this->channels, function ($data) {
-                $this->onTick($data);
-                return !$this->isStopped();
-            });
+        $this->onInit();
 
-        } while ( $this->isReconnect() && !$this->isStopped() );
+        while ( !$this->isStopped() ) {
+            try {
+                $this->api->ticker($this->channels, function ($data) {
+                    $this->onTick($data);
+                    return !$this->isStopped();
+                });
+
+            } catch (ISocketException $e) {
+                if ( !$this->isReconnect() ) {
+                    throw $e;
+                }
+            }
+        }
     }
 
     protected function stop()

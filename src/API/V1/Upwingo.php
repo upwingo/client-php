@@ -53,6 +53,7 @@ class Upwingo implements IBinaryAPI
      * @param array $channels
      * @param \Closure $onTick
      * @throws UpwingoException
+     * @throws UpwingoSocketException
      */
     public function ticker(array $channels, \Closure $onTick)
     {
@@ -69,7 +70,7 @@ class Upwingo implements IBinaryAPI
         }
 
         if ( !$socket->watch($onTick) ) {
-            throw new UpwingoException($socket->error());
+            throw new UpwingoSocketException($socket->error());
         }
     }
 

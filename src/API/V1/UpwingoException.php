@@ -2,4 +2,6 @@
 
 namespace API\V1;
 
-class UpwingoException extends \Exception {}
+use API\IException;
+
+class UpwingoException extends \Exception implements IException {}
