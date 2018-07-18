@@ -58,6 +58,8 @@ abstract class BotBasic
                     throw $e;
                 }
             }
+
+            sleep(30);
         }
     }
 
