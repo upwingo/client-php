@@ -80,15 +80,17 @@ class BotSimple extends BotBasic
             ];
 
             $data = $this->api->orderCreate($order);
-            if ( empty($data['data']['order_id']) ) {
-                return;
+
+            $orderId = "";
+            if ( !empty($data['data']['order_id']) ) {
+                $orderId = $data['data']['order_id'];
             }
 
             $this->balance = floatval($data['balance']['FREE'][$this->currency]);
 
             $this->lastOrderCandleTime = $this->currentCandleTime;
 
-            $this->log("order {$data['data']['order_id']} created [" . implode(' ', $order) . "] balance: {$this->balance}");
+            $this->log("order $orderId created [" . implode(' ', $order) . "] balance: {$this->balance}");
 
         } catch (\Exception $e) {
             $this->log($e->getMessage());
@@ -130,7 +132,7 @@ class BotSimple extends BotBasic
                 return $type;
             }
 
-            if ( ( floatval($this->candles[$time]['close']) - floatval($this->candles[$time]['open']) )*$dir <= self::POINT ) {
+            if ( ( floatval($this->candles[$time]['close']) - floatval($this->candles[$time]['open']) )*$dir < self::POINT ) {
                 return $type;
             }
 
