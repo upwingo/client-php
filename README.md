@@ -4,7 +4,7 @@
 
 # Upwingo.com public API
 
-Upwingo.com public API documentation could be found here: htttps://docs.api.upwingo.com
+Upwingo.com public API documentation could be found here: [docs.api.upwing.com](htttps://docs.api.upwingo.com)
 
 # Contact Upwingo.com
 
